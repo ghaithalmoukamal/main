@@ -1,5 +1,5 @@
 import { setRequestLocale } from "next-intl/server";
-import { DEMO_ACCOUNTS, ROLE_LABELS, canRateUser } from "@/lib/demo-auth";
+import { DEMO_ACCOUNTS } from "@/lib/demo-auth";
 import AdminUsersClient from "./AdminUsersClient";
 
 export default async function AdminUsersPage({

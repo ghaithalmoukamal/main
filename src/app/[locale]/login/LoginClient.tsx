@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "@/i18n/routing";
 import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -22,7 +21,6 @@ interface Props {
 
 export default function LoginClient({ locale, defaultRole, redirectTo }: Props) {
   const isAr = locale === "ar";
-  const router = useRouter();
   const { login } = useAuth();
 
   const [activeTab, setActiveTab] = useState(defaultRole || "craftsman");
@@ -47,7 +45,7 @@ export default function LoginClient({ locale, defaultRole, redirectTo }: Props) 
     const result = login(username, password);
     setBusy(false);
     if (result.ok) {
-      router.push((redirectTo || result.redirect) as Parameters<typeof router.push>[0]);
+      window.location.href = `/${locale}${redirectTo || result.redirect}`;
     } else {
       setError(
         isAr
