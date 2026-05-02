@@ -3,6 +3,7 @@ import { Link } from "@/i18n/routing";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ModeToggle from "./ModeToggle";
+import HeaderAuthButton from "./HeaderAuthButton";
 
 export default async function Header() {
   const t = await getTranslations("nav");
@@ -26,17 +27,12 @@ export default async function Header() {
             >
               {t("nearest")}
             </Link>
-            <Link
-              href="/craftsman/register"
-              className="text-charcoal-600 hover:text-clay transition-colors"
-            >
-              {t("register")}
-            </Link>
           </nav>
 
           <div className="flex items-center gap-2">
             <ModeToggle />
             <LanguageSwitcher />
+            <HeaderAuthButton />
           </div>
         </div>
 

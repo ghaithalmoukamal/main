@@ -48,12 +48,56 @@ body {
   border-radius: 4px;
 }
 
-/* Disable image auto-load in lite mode */
+/* ===== LITE MODE ===== */
+/* Disable image auto-load */
 [data-mode="lite"] img:not([data-eager]) {
   visibility: hidden;
+  min-height: 0;
+  height: 0;
+  display: none;
 }
 [data-mode="lite"] img[data-eager] {
   visibility: visible;
+  display: block;
+}
+/* Gray background, no warm cream */
+[data-mode="lite"] body {
+  background: #e8e8e8;
+}
+/* Flatten all rounded cards to sharp rectangles */
+[data-mode="lite"] .rounded-2xl,
+[data-mode="lite"] .rounded-xl,
+[data-mode="lite"] .rounded-lg {
+  border-radius: 2px !important;
+}
+/* Remove geometric hero pattern */
+[data-mode="lite"] .bg-pattern-geometric {
+  background-image: none;
+  background-color: #d8d8d8;
+}
+/* Remove shadows */
+[data-mode="lite"] .shadow-sm,
+[data-mode="lite"] .shadow-md,
+[data-mode="lite"] .shadow-lg {
+  box-shadow: none !important;
+}
+/* Desaturate brand colors to gray-only palette */
+[data-mode="lite"] header {
+  background: #d8d8d8 !important;
+  border-color: #bbbbbb !important;
+}
+/* Remove backdrop blur */
+[data-mode="lite"] .backdrop-blur {
+  backdrop-filter: none;
+}
+/* Flatten maps container — still visible but border-boxed */
+[data-mode="lite"] .leaflet-container {
+  filter: grayscale(100%);
+}
+/* Hide animations */
+[data-mode="lite"] * {
+  transition: none !important;
+  animation: none !important;
 }
 
 /* Geometric texture for hero sections */

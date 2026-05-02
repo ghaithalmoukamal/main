@@ -66,7 +66,7 @@ export default async function SearchPage({
             </div>
           )}
 
-          <div className="hidden lg:block">
+          <div>
             <DynamicMap craftsmen={results} zones={visibleZones} />
           </div>
         </div>

@@ -9,6 +9,7 @@ import Footer from "@/components/layout/Footer";
 import ModeProvider from "@/components/layout/ModeProvider";
 import FirstVisitModal from "@/components/layout/FirstVisitModal";
 import ServiceWorkerRegistrar from "@/components/layout/ServiceWorkerRegistrar";
+import { AuthProvider } from "@/context/AuthContext";
 import { readModeCookie } from "@/lib/mode";
 
 const cairo = Cairo({
@@ -52,13 +53,15 @@ export default async function LocaleLayout({
     <html lang={locale} dir={dir} className={`${cairo.variable} ${plex.variable}`}>
       <body className="min-h-screen bg-cream text-charcoal antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <ModeProvider initialMode={initialMode}>
-            <ServiceWorkerRegistrar />
-            <FirstVisitModal />
-            <Header />
-            <main className="min-h-[calc(100vh-160px)]">{children}</main>
-            <Footer />
-          </ModeProvider>
+          <AuthProvider>
+            <ModeProvider initialMode={initialMode}>
+              <ServiceWorkerRegistrar />
+              <FirstVisitModal />
+              <Header />
+              <main className="min-h-[calc(100vh-160px)]">{children}</main>
+              <Footer />
+            </ModeProvider>
+          </AuthProvider>
         </NextIntlClientProvider>
       </body>
     </html>
