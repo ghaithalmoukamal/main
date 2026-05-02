@@ -2,7 +2,6 @@
 
 import { useAuth } from "@/context/AuthContext";
 import { useLocale } from "next-intl";
-import { useRouter } from "@/i18n/routing";
 import { useState } from "react";
 import { ROLE_LABELS } from "@/lib/demo-auth";
 
@@ -10,7 +9,6 @@ export default function HeaderAuthButton() {
   const { user, logout, loading } = useAuth();
   const locale = useLocale() as "ar" | "en";
   const isAr = locale === "ar";
-  const router = useRouter();
   const [open, setOpen] = useState(false);
 
   if (loading) return null;
@@ -32,7 +30,7 @@ export default function HeaderAuthButton() {
   function handleLogout() {
     logout();
     setOpen(false);
-    router.push("/");
+    window.location.href = `/${locale}`;
   }
 
   return (
