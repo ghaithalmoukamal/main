@@ -1,0 +1,81 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --color-clay: #8b4513;
+  --color-charcoal: #1c2833;
+  --color-cream: #f5f0e8;
+  --color-brass: #c67b30;
+  --color-verified: #2e7d32;
+  --color-busy: #b71c1c;
+}
+
+html {
+  font-family: var(--font-plex), var(--font-cairo), system-ui, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-charcoal);
+}
+
+html[dir="rtl"] {
+  font-family: var(--font-cairo), system-ui, sans-serif;
+}
+
+body {
+  min-height: 100vh;
+}
+
+/* Scrollbar — subtle, brand-colored */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(139, 69, 19, 0.25);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(139, 69, 19, 0.4);
+}
+
+/* Focus ring */
+*:focus-visible {
+  outline: 2px solid var(--color-brass);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+/* Disable image auto-load in lite mode */
+[data-mode="lite"] img:not([data-eager]) {
+  visibility: hidden;
+}
+[data-mode="lite"] img[data-eager] {
+  visibility: visible;
+}
+
+/* Geometric texture for hero sections */
+.bg-pattern-geometric {
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(139, 69, 19, 0.06) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+/* Leaflet tweaks for RTL + brand */
+.leaflet-container {
+  font-family: inherit;
+  background: var(--color-cream);
+}
+.leaflet-popup-content-wrapper {
+  border-radius: 12px;
+}

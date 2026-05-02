@@ -1,0 +1,44 @@
+{
+  "name": "سوق الحرفيين — Souq Al-Hirfiyeen",
+  "short_name": "سوق الحرفيين",
+  "description": "السوق الرقمي للحرفيين السوريين",
+  "start_url": "/ar",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "theme_color": "#8B4513",
+  "background_color": "#F5F0E8",
+  "lang": "ar",
+  "dir": "rtl",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "screenshots": [],
+  "shortcuts": [
+    {
+      "name": "ابحث عن معلم",
+      "short_name": "بحث",
+      "description": "ابحث عن الحرفيين",
+      "url": "/ar/search",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "أقرب معلم",
+      "short_name": "الأقرب",
+      "description": "اعثر على أقرب معلم متاح",
+      "url": "/ar/nearest",
+      "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }]
+    }
+  ]
+}
