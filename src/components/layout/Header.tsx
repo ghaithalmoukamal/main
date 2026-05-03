@@ -1,12 +1,14 @@
-import { getTranslations } from "next-intl/server";
+"use client";
+
+import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/routing";
 import Logo from "./Logo";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ModeToggle from "./ModeToggle";
 import HeaderAuthButton from "./HeaderAuthButton";
 
-export default async function Header() {
-  const t = await getTranslations("nav");
+export default function Header() {
+  const t = useTranslations("nav");
 
   return (
     <header className="sticky top-0 z-30 bg-cream-100/90 backdrop-blur border-b border-clay-100">
