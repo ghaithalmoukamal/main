@@ -1,6 +1,7 @@
 import { setRequestLocale } from "next-intl/server";
 import TeamsClient from "./TeamsClient";
 import { DEMO_CRAFTSMEN, DEMO_TRADES, DEMO_CITIES } from "@/lib/demo-data";
+import FeatureGate from "@/components/ui/FeatureGate";
 
 export default async function TeamsPage({
   params,
@@ -28,7 +29,9 @@ export default async function TeamsPage({
           ? "احفظ معلميك المفضلين في فرق للمشاريع المستقبلية"
           : "Save your preferred craftsmen into named teams for future projects"}
       </p>
-      <TeamsClient craftsmen={craftsmen} locale={locale as "ar" | "en"} />
+      <FeatureGate requiredFeature="save_teams" audience="firm">
+        <TeamsClient craftsmen={craftsmen} locale={locale as "ar" | "en"} />
+      </FeatureGate>
     </div>
   );
 }

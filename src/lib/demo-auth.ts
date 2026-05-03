@@ -127,3 +127,14 @@ export function canRateUser(rater: DemoUser, target: DemoUser): boolean {
   if (!rater.adminLevel || !target.adminLevel) return false;
   return rater.adminLevel < target.adminLevel;
 }
+
+/**
+ * Admin hierarchy visibility: a user can only see the rating of someone
+ * whose adminLevel is GREATER (i.e., lower rank) than their own.
+ * super_admin (1) sees everyone. admin (2) sees moderator+worker but NOT super_admin.
+ * moderator (3) sees worker only. worker (4) sees nobody.
+ */
+export function canSeeRating(viewer: DemoUser, target: DemoUser): boolean {
+  if (!viewer.adminLevel || !target.adminLevel) return false;
+  return viewer.adminLevel < target.adminLevel;
+}

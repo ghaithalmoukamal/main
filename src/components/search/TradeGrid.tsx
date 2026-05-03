@@ -11,7 +11,7 @@ export default function TradeGrid() {
   return (
     <section className="py-10 bg-cream-100">
       <div className="max-w-7xl mx-auto px-4 lg:px-6">
-        <h2 className="font-heading text-2xl font-bold mb-6 text-clay">
+        <h2 className="font-heading text-2xl font-bold mb-6 text-clay text-center">
           {t("tradesTitle")}
         </h2>
         <div className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">

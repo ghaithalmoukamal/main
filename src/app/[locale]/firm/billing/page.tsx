@@ -2,6 +2,29 @@ import { setRequestLocale } from "next-intl/server";
 import { DEMO_PLANS } from "@/lib/demo-data";
 import { formatPrice } from "@/lib/utils";
 
+// Features that exist across plans — used to show ✓ vs 🔒
+const ALL_FIRM_FEATURES = [
+  "browse_profiles",
+  "basic_search",
+  "advanced_search",
+  "save_teams",
+  "capacity_filter",
+  "reliability_scores",
+  "zone_targeting",
+  "priority_support",
+];
+
+const FEATURE_LABELS: Record<string, { ar: string; en: string }> = {
+  browse_profiles: { ar: "تصفح الملفات", en: "Browse Profiles" },
+  basic_search: { ar: "بحث أساسي", en: "Basic Search" },
+  advanced_search: { ar: "بحث متقدم", en: "Advanced Search" },
+  save_teams: { ar: "حفظ الفرق", en: "Save Teams" },
+  capacity_filter: { ar: "تصفية بالسعة", en: "Capacity Filter" },
+  reliability_scores: { ar: "درجات الموثوقية", en: "Reliability Scores" },
+  zone_targeting: { ar: "استهداف المناطق", en: "Zone Targeting" },
+  priority_support: { ar: "دعم أولوية", en: "Priority Support" },
+};
+
 export default async function FirmBillingPage({
   params,
 }: {
@@ -14,7 +37,7 @@ export default async function FirmBillingPage({
   const firmPlans = DEMO_PLANS.filter((p) => p.target_audience === "firm");
 
   return (
-    <div className="max-w-3xl mx-auto px-4 lg:px-6 py-10">
+    <div className="max-w-4xl mx-auto px-4 lg:px-6 py-10">
       <h1 className="font-heading text-2xl font-bold text-clay mb-2">
         {isAr ? "خطط الاشتراك" : "Subscription Plans"}
       </h1>
@@ -24,7 +47,7 @@ export default async function FirmBillingPage({
           : "Free for firms in year one. Paid plans unlock advanced features."}
       </p>
 
-      <div className="grid sm:grid-cols-3 gap-4">
+      <div className="grid sm:grid-cols-3 gap-5">
         {firmPlans.map((plan) => {
           const name = isAr ? plan.name_ar : plan.name_en;
           const isFree = plan.price === 0;
@@ -56,13 +79,28 @@ export default async function FirmBillingPage({
                   /{isAr ? (plan.duration_type === "monthly" ? "شهر" : "سنة") : plan.duration_type}
                 </div>
               )}
+
+              {/* Feature list — only show included features */}
               <ul className="space-y-1.5 mt-4 mb-5">
-                {plan.features.map((f) => (
-                  <li key={f} className="flex items-center gap-2 text-sm">
-                    <span className="opacity-70">✓</span>
-                    <span>{f.replace(/_/g, " ")}</span>
+                {plan.features.map((f) => {
+                  const label = FEATURE_LABELS[f]
+                    ? isAr ? FEATURE_LABELS[f].ar : FEATURE_LABELS[f].en
+                    : f.replace(/_/g, " ");
+                  return (
+                    <li key={f} className="flex items-center gap-2 text-sm">
+                      <span className="opacity-70">✓</span>
+                      <span>{label}</span>
+                    </li>
+                  );
+                })}
+                {/* Show what's NOT included as a subtle hint */}
+                {ALL_FIRM_FEATURES.filter((f) => !plan.features.includes(f)).length > 0 && !plan.priority_placement && (
+                  <li className="text-xs opacity-40 mt-2 pt-2 border-t border-current/10">
+                    🔒 {isAr
+                      ? `+${ALL_FIRM_FEATURES.filter((f) => !plan.features.includes(f)).length} ميزات في الخطط الأعلى`
+                      : `+${ALL_FIRM_FEATURES.filter((f) => !plan.features.includes(f)).length} more in higher plans`}
                   </li>
-                ))}
+                )}
               </ul>
               <button
                 className={`w-full py-2.5 rounded-xl text-sm font-medium transition-colors ${

@@ -657,7 +657,6 @@ export const DEMO_PLANS: SubscriptionPlan[] = [
       "advanced_search",
       "save_teams",
       "capacity_filter",
-      "reliability_scores",
     ],
     max_contacts_per_month: null,
     max_ads: null,

@@ -75,7 +75,7 @@ export default async function LocaleLayout({
   const dir = isRTL(locale) ? "rtl" : "ltr";
 
   return (
-    <html lang={locale} dir={dir} className={`${cairo.variable} ${plex.variable}`}>
+    <html lang={locale} dir={dir} className={`${cairo.variable} ${plex.variable}`} suppressHydrationWarning>
       <body className="min-h-screen bg-cream text-charcoal antialiased">
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AuthProvider>

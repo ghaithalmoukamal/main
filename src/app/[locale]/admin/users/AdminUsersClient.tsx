@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/context/AuthContext";
-import { ROLE_LABELS, canRateUser, type DemoUser } from "@/lib/demo-auth";
+import { ROLE_LABELS, canRateUser, canSeeRating, type DemoUser } from "@/lib/demo-auth";
 import { Badge } from "@/components/ui/Badge";
 
 const ADMIN_LEVEL_LABELS: Record<number, { ar: string; en: string; color: string }> = {
@@ -38,6 +38,13 @@ export default function AdminUsersClient({ locale, accounts }: Props) {
   const canRate = (target: DemoUser) => {
     if (!currentUser) return false;
     return canRateUser(currentUser, target);
+  };
+
+  const canViewRating = (target: DemoUser) => {
+    if (!currentUser) return false;
+    // Super admin sees all. Others only see ratings of lower-ranked users.
+    if (currentUser.adminLevel === 1) return true;
+    return canSeeRating(currentUser, target);
   };
 
   return (
@@ -109,12 +116,18 @@ export default function AdminUsersClient({ locale, accounts }: Props) {
                   </td>
                   <td className="py-3 pe-4 text-center">
                     {a.adminLevel ? (
-                      <div className="flex items-center justify-center gap-1">
-                        <StarRating value={currentRating} />
-                        {a.ratingCount ? (
-                          <span className="text-xs text-charcoal-400">({a.ratingCount})</span>
-                        ) : null}
-                      </div>
+                      canViewRating(a) ? (
+                        <div className="flex items-center justify-center gap-1">
+                          <StarRating value={currentRating} />
+                          {a.ratingCount ? (
+                            <span className="text-xs text-charcoal-400">({a.ratingCount})</span>
+                          ) : null}
+                        </div>
+                      ) : (
+                        <span className="text-xs text-charcoal-400 italic">
+                          {isAr ? "🔒 مستوى أعلى" : "🔒 Higher rank"}
+                        </span>
+                      )
                     ) : (
                       <span className="text-charcoal-400 text-xs">—</span>
                     )}
