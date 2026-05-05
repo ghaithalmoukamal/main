@@ -4,6 +4,7 @@ import { useAuth } from "@/context/AuthContext";
 import { useLocale } from "next-intl";
 import { useState } from "react";
 import { ROLE_LABELS } from "@/lib/demo-auth";
+import { Link } from "@/i18n/routing";
 
 export default function HeaderAuthButton() {
   const { user, logout, loading } = useAuth();
@@ -15,21 +16,23 @@ export default function HeaderAuthButton() {
 
   if (!user) {
     return (
-      <a
-        href={`/${locale}/login`}
+      <Link
+        href="/login"
         className="px-3 py-1.5 text-sm rounded-lg bg-clay text-cream hover:bg-clay-600 transition-colors font-medium"
       >
         {isAr ? "تسجيل الدخول" : "Sign In"}
-      </a>
+      </Link>
     );
   }
 
   const roleLabel = ROLE_LABELS[user.role]?.[locale] ?? user.role;
-  const dashboardLink = getDashboardLink(user.role, locale);
+  const dashboardLink = getDashboardLink(user.role);
 
   function handleLogout() {
     logout();
     setOpen(false);
+    // Full page reload is intentional — clears all client-side auth state,
+    // React context, and localStorage-hydrated providers cleanly.
     window.location.href = `/${locale}`;
   }
 
@@ -53,39 +56,39 @@ export default function HeaderAuthButton() {
             onClick={() => setOpen(false)}
           />
           <div className="absolute end-0 top-full mt-1 z-50 bg-white border border-clay-100 rounded-xl shadow-lg py-1 min-w-[160px]">
-            <a
-              href={`/${locale}${dashboardLink}`}
+            <Link
+              href={dashboardLink as Parameters<typeof Link>[0]["href"]}
               className="block px-4 py-2 text-sm text-charcoal hover:bg-cream-50 hover:text-clay"
               onClick={() => setOpen(false)}
             >
               {isAr ? "لوحة التحكم" : "Dashboard"}
-            </a>
+            </Link>
             {(user.role === "super_admin" || user.role === "admin" || user.role === "moderator" || user.role === "worker") && (
-              <a
-                href={`/${locale}/admin`}
+              <Link
+                href="/admin"
                 className="block px-4 py-2 text-sm text-charcoal hover:bg-cream-50 hover:text-clay"
                 onClick={() => setOpen(false)}
               >
                 {isAr ? "لوحة الإدارة" : "Admin Panel"}
-              </a>
+              </Link>
             )}
             {user.role === "supplier" && (
-              <a
-                href={`/${locale}/supplier/dashboard`}
+              <Link
+                href="/supplier/dashboard"
                 className="block px-4 py-2 text-sm text-charcoal hover:bg-cream-50 hover:text-clay"
                 onClick={() => setOpen(false)}
               >
                 {isAr ? "بوابة الموردين" : "Supplier Portal"}
-              </a>
+              </Link>
             )}
             {user.role === "firm" && (
-              <a
-                href={`/${locale}/firm`}
+              <Link
+                href="/firm"
                 className="block px-4 py-2 text-sm text-charcoal hover:bg-cream-50 hover:text-clay"
                 onClick={() => setOpen(false)}
               >
                 {isAr ? "بوابة الشركة" : "Firm Portal"}
-              </a>
+              </Link>
             )}
             <div className="border-t border-clay-100 mt-1 pt-1">
               <button
@@ -102,7 +105,7 @@ export default function HeaderAuthButton() {
   );
 }
 
-function getDashboardLink(role: string, locale: string): string {
+function getDashboardLink(role: string): string {
   switch (role) {
     case "super_admin":
     case "admin":

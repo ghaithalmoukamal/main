@@ -5,6 +5,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { DEMO_ACCOUNTS, ROLE_LABELS } from "@/lib/demo-auth";
+import { Link } from "@/i18n/routing";
 
 const ROLE_TABS = [
   { key: "craftsman", icon: "🛠️" },
@@ -45,6 +46,8 @@ export default function LoginClient({ locale, defaultRole, redirectTo }: Props) 
     const result = login(username, password);
     setBusy(false);
     if (result.ok) {
+      // Full page reload is intentional — ensures all providers re-initialize
+      // with the new auth state from localStorage.
       window.location.href = `/${locale}${redirectTo || result.redirect}`;
     } else {
       setError(
@@ -172,15 +175,15 @@ export default function LoginClient({ locale, defaultRole, redirectTo }: Props) 
         <div className="mt-6 text-center text-sm text-charcoal-500 space-y-2">
           <div>
             {isAr ? "معلم جديد؟ " : "New craftsman? "}
-            <a href={`/${locale}/craftsman/register`} className="text-clay hover:underline font-medium">
+            <Link href="/craftsman/register" className="text-clay hover:underline font-medium">
               {isAr ? "سجّل ورشتك" : "Register your workshop"}
-            </a>
+            </Link>
           </div>
           <div>
             {isAr ? "مورّد جديد؟ " : "New supplier? "}
-            <a href={`/${locale}/supplier/register`} className="text-clay hover:underline font-medium">
+            <Link href="/supplier/register" className="text-clay hover:underline font-medium">
               {isAr ? "سجّل كمورّد" : "Register as supplier"}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

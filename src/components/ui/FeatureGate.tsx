@@ -3,6 +3,7 @@
 import { useAuth } from "@/context/AuthContext";
 import { DEMO_PLANS } from "@/lib/demo-data";
 import { useLocale } from "next-intl";
+import { Link } from "@/i18n/routing";
 
 interface FeatureGateProps {
   /** The feature key that the user's plan must include */
@@ -64,12 +65,12 @@ export default function FeatureGate({
               ? `هذه الميزة متاحة في خطة "${upgradeName}". رقّي اشتراكك للوصول.`
               : `This feature is available on the "${upgradeName}" plan. Upgrade to access.`}
           </p>
-          <a
-            href={`/${locale}/${audience === "firm" ? "firm" : "supplier"}/billing`}
+          <Link
+            href={`/${audience === "firm" ? "firm" : "supplier"}/billing` as Parameters<typeof Link>[0]["href"]}
             className="inline-block px-6 py-2.5 bg-clay text-cream rounded-xl font-medium hover:bg-clay-600 transition-colors text-sm"
           >
             {isAr ? "رقّي الآن" : "Upgrade Now"} →
-          </a>
+          </Link>
         </div>
       </div>
     </div>

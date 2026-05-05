@@ -1,23 +1,22 @@
 "use client";
 
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { Link, usePathname } from "@/i18n/routing";
 import { classNames } from "@/lib/utils";
 
-const items = (locale: string) => [
-  { href: `/${locale}/admin`, label: "Overview", labelAr: "نظرة عامة", icon: "📊" },
-  { href: `/${locale}/admin/approvals`, label: "Approvals", labelAr: "الموافقات", icon: "✅", badge: 7 },
-  { href: `/${locale}/admin/users`, label: "Users", labelAr: "المستخدمون", icon: "👤" },
-  { href: `/${locale}/admin/trades`, label: "Trades", labelAr: "المهن", icon: "🔧" },
-  { href: `/${locale}/admin/zones`, label: "Zones", labelAr: "المناطق", icon: "🗺️" },
-  { href: `/${locale}/admin/ads`, label: "Ads", labelAr: "الإعلانات", icon: "📢" },
-  { href: `/${locale}/admin/channels`, label: "Channels", labelAr: "القنوات", icon: "📡" },
-  { href: `/${locale}/admin/subscriptions`, label: "Plans", labelAr: "الخطط", icon: "💳" },
-  { href: `/${locale}/admin/disputes`, label: "Disputes", labelAr: "النزاعات", icon: "⚖️", badge: 2 },
-  { href: `/${locale}/admin/fraud`, label: "Fraud", labelAr: "الاحتيال", icon: "🚨", badge: 3 },
-  { href: `/${locale}/admin/talent`, label: "Talent", labelAr: "المواهب", icon: "⭐" },
-  { href: `/${locale}/admin/audit`, label: "Audit Log", labelAr: "سجل الأحداث", icon: "📜" },
-];
+const items = [
+  { href: "/admin", label: "Overview", labelAr: "نظرة عامة", icon: "📊" },
+  { href: "/admin/approvals", label: "Approvals", labelAr: "الموافقات", icon: "✅", badge: 7 },
+  { href: "/admin/users", label: "Users", labelAr: "المستخدمون", icon: "👤" },
+  { href: "/admin/trades", label: "Trades", labelAr: "المهن", icon: "🔧" },
+  { href: "/admin/zones", label: "Zones", labelAr: "المناطق", icon: "🗺️" },
+  { href: "/admin/ads", label: "Ads", labelAr: "الإعلانات", icon: "📢" },
+  { href: "/admin/channels", label: "Channels", labelAr: "القنوات", icon: "📡" },
+  { href: "/admin/subscriptions", label: "Plans", labelAr: "الخطط", icon: "💳" },
+  { href: "/admin/disputes", label: "Disputes", labelAr: "النزاعات", icon: "⚖️", badge: 2 },
+  { href: "/admin/fraud", label: "Fraud", labelAr: "الاحتيال", icon: "🚨", badge: 3 },
+  { href: "/admin/talent", label: "Talent", labelAr: "المواهب", icon: "⭐" },
+  { href: "/admin/audit", label: "Audit Log", labelAr: "سجل الأحداث", icon: "📜" },
+] as const;
 
 export default function AdminSidebar({ locale }: { locale: "ar" | "en" }) {
   const pathname = usePathname();
@@ -31,10 +30,10 @@ export default function AdminSidebar({ locale }: { locale: "ar" | "en" }) {
         </div>
       </div>
       <nav className="flex-1 p-2 space-y-0.5 overflow-y-auto">
-        {items(locale).map((item) => {
+        {items.map((item) => {
           const isActive =
             pathname === item.href ||
-            (item.href !== `/${locale}/admin` &&
+            (item.href !== "/admin" &&
               pathname.startsWith(item.href));
           return (
             <Link

@@ -60,18 +60,18 @@ export default async function HomePage({
                 : "Register your workshop and receive job leads directly"}
             </p>
             <div className="flex gap-2 mt-2 w-full justify-center">
-              <a
-                href={`/${locale}/login?role=craftsman`}
+              <Link
+                href="/login?role=craftsman"
                 className="flex-1 max-w-[140px] text-center px-4 py-2 text-sm rounded-lg bg-clay text-cream hover:bg-clay-600 transition-colors font-medium"
               >
                 {isAr ? "تسجيل الدخول" : "Sign In"}
-              </a>
-              <a
-                href={`/${locale}/craftsman/register`}
+              </Link>
+              <Link
+                href="/craftsman/register"
                 className="flex-1 max-w-[140px] text-center px-4 py-2 text-sm rounded-lg border border-clay text-clay hover:bg-clay-50 transition-colors font-medium"
               >
                 {isAr ? "سجّل ورشتك" : "Register"}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -87,18 +87,18 @@ export default async function HomePage({
                 : "Find craftsmen and build your project team efficiently"}
             </p>
             <div className="flex gap-2 mt-2 w-full justify-center">
-              <a
-                href={`/${locale}/login?role=firm`}
+              <Link
+                href="/login?role=firm"
                 className="flex-1 max-w-[140px] text-center px-4 py-2 text-sm rounded-lg bg-charcoal text-cream hover:bg-charcoal-600 transition-colors font-medium"
               >
                 {isAr ? "تسجيل الدخول" : "Sign In"}
-              </a>
-              <a
-                href={`/${locale}/firm`}
+              </Link>
+              <Link
+                href="/firm"
                 className="flex-1 max-w-[140px] text-center px-4 py-2 text-sm rounded-lg border border-charcoal text-charcoal hover:bg-cream-100 transition-colors font-medium"
               >
                 {isAr ? "اعرف أكثر" : "Learn More"}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -114,18 +114,18 @@ export default async function HomePage({
                 : "Advertise your materials and connect with craftsmen and firms"}
             </p>
             <div className="flex gap-2 mt-2 w-full justify-center">
-              <a
-                href={`/${locale}/login?role=supplier`}
+              <Link
+                href="/login?role=supplier"
                 className="flex-1 max-w-[140px] text-center px-4 py-2 text-sm rounded-lg bg-brass text-cream hover:bg-brass-600 transition-colors font-medium"
               >
                 {isAr ? "تسجيل الدخول" : "Sign In"}
-              </a>
-              <a
-                href={`/${locale}/supplier/register`}
+              </Link>
+              <Link
+                href="/supplier/register"
                 className="flex-1 max-w-[140px] text-center px-4 py-2 text-sm rounded-lg border border-brass text-brass hover:bg-cream-100 transition-colors font-medium"
               >
                 {isAr ? "سجّل كمورّد" : "Register"}
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -141,12 +141,12 @@ export default async function HomePage({
                 : "Admin panel for platform managers and moderators"}
             </p>
             <div className="flex gap-2 mt-2 w-full justify-center">
-              <a
-                href={`/${locale}/login?role=admin`}
+              <Link
+                href="/login?role=admin"
                 className="flex-1 max-w-[140px] text-center px-4 py-2 text-sm rounded-lg bg-charcoal-600 text-cream hover:bg-charcoal transition-colors font-medium"
               >
                 {isAr ? "دخول الإدارة" : "Admin Login"}
-              </a>
+              </Link>
             </div>
           </div>
         </div>

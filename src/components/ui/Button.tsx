@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/routing";
 import { classNames } from "@/lib/utils";
 import type { ComponentProps, ReactNode } from "react";
 
