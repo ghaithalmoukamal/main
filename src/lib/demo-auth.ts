@@ -2,10 +2,12 @@ export type DemoRole =
   | "super_admin"
   | "admin"
   | "moderator"
-  | "worker"
+  | "worker"       // internal review staff — NOT a craftsman
   | "supplier"
-  | "craftsman"
+  | "craftsman"    // the Maalem (المعلم)
   | "firm"
+  | "contractor"   // project-level professional (new)
+  | "homeowner"    // private B2C customer (new)
   | "user";
 
 export interface DemoUser {
@@ -88,6 +90,23 @@ export const DEMO_ACCOUNTS: DemoUser[] = [
     name_ar: "دمشق للهندسة م.م.م",
     role: "firm",
   },
+  // ── New roles ──────────────────────────────────────────────
+  {
+    id: "contractor-1",
+    username: "contractor",
+    password: "contractor",
+    name: "Khaled Al-Miqati Contracting",
+    name_ar: "خالد المقاتي للمقاولات",
+    role: "contractor",
+  },
+  {
+    id: "homeowner-1",
+    username: "homeowner",
+    password: "homeowner",
+    name: "Rami Habboub",
+    name_ar: "رامي حبوب",
+    role: "homeowner",
+  },
 ];
 
 export function loginDemo(
@@ -109,6 +128,8 @@ export const ROLE_DASHBOARDS: Record<DemoRole, string> = {
   supplier: "/supplier/dashboard",
   craftsman: "/dashboard",
   firm: "/firm",
+  contractor: "/contractor/dashboard",
+  homeowner: "/",
   user: "/",
 };
 
@@ -116,10 +137,12 @@ export const ROLE_LABELS: Record<DemoRole, { ar: string; en: string }> = {
   super_admin: { ar: "مشرف رئيسي", en: "Super Admin" },
   admin: { ar: "مدير", en: "Admin" },
   moderator: { ar: "مشرف", en: "Moderator" },
-  worker: { ar: "عامل", en: "Worker" },
+  worker: { ar: "عامل مراجعة", en: "Review Worker" },
   supplier: { ar: "مورّد", en: "Supplier" },
-  craftsman: { ar: "معلم", en: "Craftsman" },
-  firm: { ar: "شركة", en: "Firm" },
+  craftsman: { ar: "معلم", en: "Maalem" },
+  firm: { ar: "شركة هندسية", en: "Engineering Firm" },
+  contractor: { ar: "مقاول", en: "Contractor" },
+  homeowner: { ar: "صاحب البيت", en: "Homeowner" },
   user: { ar: "زائر", en: "Guest" },
 };
 

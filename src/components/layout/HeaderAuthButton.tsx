@@ -90,6 +90,15 @@ export default function HeaderAuthButton() {
                 {isAr ? "بوابة الشركة" : "Firm Portal"}
               </Link>
             )}
+            {user.role === "contractor" && (
+              <Link
+                href="/contractor/dashboard"
+                className="block px-4 py-2 text-sm text-charcoal hover:bg-cream-50 hover:text-clay"
+                onClick={() => setOpen(false)}
+              >
+                {isAr ? "بوابة المقاول" : "Contractor Portal"}
+              </Link>
+            )}
             <div className="border-t border-clay-100 mt-1 pt-1">
               <button
                 onClick={handleLogout}
@@ -118,6 +127,10 @@ function getDashboardLink(role: string): string {
       return "/firm";
     case "craftsman":
       return "/dashboard";
+    case "contractor":
+      return "/contractor/dashboard";
+    case "homeowner":
+      return "/search";
     default:
       return "/";
   }

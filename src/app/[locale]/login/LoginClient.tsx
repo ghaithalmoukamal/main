@@ -8,10 +8,12 @@ import { DEMO_ACCOUNTS, ROLE_LABELS } from "@/lib/demo-auth";
 import { Link } from "@/i18n/routing";
 
 const ROLE_TABS = [
-  { key: "craftsman", icon: "🛠️" },
-  { key: "firm", icon: "🏢" },
-  { key: "supplier", icon: "🏭" },
-  { key: "admin", icon: "🔐" },
+  { key: "craftsman",  icon: "🛠️" },
+  { key: "contractor", icon: "🏗️" },
+  { key: "firm",       icon: "🏢" },
+  { key: "homeowner",  icon: "🏠" },
+  { key: "supplier",   icon: "🏭" },
+  { key: "admin",      icon: "🔐" },
 ] as const;
 
 interface Props {
@@ -32,10 +34,12 @@ export default function LoginClient({ locale, defaultRole, redirectTo }: Props) 
 
   // Demo hint accounts for each role tab
   const hints: Record<string, { username: string; password: string; label: string }> = {
-    craftsman: { username: "craftsman", password: "craftsman", label: isAr ? "تجربة كمعلم" : "Try as Craftsman" },
-    firm: { username: "firm", password: "firm", label: isAr ? "تجربة كشركة" : "Try as Firm" },
-    supplier: { username: "supplier", password: "supplier", label: isAr ? "تجربة كمورّد" : "Try as Supplier" },
-    admin: { username: "admin", password: "admin", label: isAr ? "دخول الإدارة" : "Admin Login" },
+    craftsman:  { username: "craftsman",  password: "craftsman",  label: isAr ? "تجربة كمعلم"       : "Try as Maalem" },
+    contractor: { username: "contractor", password: "contractor", label: isAr ? "تجربة كمقاول"      : "Try as Contractor" },
+    firm:       { username: "firm",       password: "firm",       label: isAr ? "تجربة كشركة"       : "Try as Firm" },
+    homeowner:  { username: "homeowner",  password: "homeowner",  label: isAr ? "تجربة كصاحب بيت"  : "Try as Homeowner" },
+    supplier:   { username: "supplier",   password: "supplier",   label: isAr ? "تجربة كمورّد"      : "Try as Supplier" },
+    admin:      { username: "admin",      password: "admin",      label: isAr ? "دخول الإدارة"      : "Admin Login" },
   };
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -174,9 +178,21 @@ export default function LoginClient({ locale, defaultRole, redirectTo }: Props) 
         {/* Register links */}
         <div className="mt-6 text-center text-sm text-charcoal-500 space-y-2">
           <div>
-            {isAr ? "معلم جديد؟ " : "New craftsman? "}
+            {isAr ? "معلم جديد؟ " : "New Maalem? "}
             <Link href="/craftsman/register" className="text-clay hover:underline font-medium">
               {isAr ? "سجّل ورشتك" : "Register your workshop"}
+            </Link>
+          </div>
+          <div>
+            {isAr ? "مقاول جديد؟ " : "New contractor? "}
+            <Link href="/contractor/register" className="text-clay hover:underline font-medium">
+              {isAr ? "سجّل كمقاول" : "Register as contractor"}
+            </Link>
+          </div>
+          <div>
+            {isAr ? "صاحب بيت؟ " : "Homeowner? "}
+            <Link href="/homeowner/register" className="text-clay hover:underline font-medium">
+              {isAr ? "سجّل لتجد معلمك" : "Register to find your Maalem"}
             </Link>
           </div>
           <div>

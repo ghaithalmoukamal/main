@@ -6,12 +6,13 @@ const intlMiddleware = createMiddleware(routing);
 
 const PROTECTED_PATTERNS = [
   /^\/(ar|en)\/admin(\/|$)/,
-  /^\/(ar|en)\/dashboard(\/|$)/,
-  /^\/(ar|en)\/firm(\/|$)/,
+  /^\/(ar|en)\/dashboard(\/|$)/,       // Maalem (craftsman) dashboard
+  /^\/(ar|en)\/firm(\/|$)/,            // Engineering firm portal
   /^\/(ar|en)\/supplier\/dashboard(\/|$)/,
   /^\/(ar|en)\/supplier\/ads(\/|$)/,
   /^\/(ar|en)\/supplier\/billing(\/|$)/,
   /^\/(ar|en)\/supplier\/channels(\/|$)/,
+  /^\/(ar|en)\/contractor\/dashboard(\/|$)/,  // Contractor portal (new)
 ];
 
 export default function middleware(request: NextRequest) {
@@ -26,6 +27,26 @@ export default function middleware(request: NextRequest) {
       sameSite: "lax",
       path: "/",
     });
+  }
+
+  // Persist B2C/B2B user context cookie if set via query param.
+  // e.g. /?ctx=homeowner or /?ctx=b2b&b2b_type=maalem
+  // This is set once on first visit and never prompted again.
+  const ctxParam = request.nextUrl.searchParams.get("ctx");
+  if (ctxParam === "homeowner" || ctxParam === "b2b") {
+    response.cookies.set("user_context", ctxParam, {
+      maxAge: 60 * 60 * 24 * 365 * 2, // 2 years — effectively permanent
+      sameSite: "lax",
+      path: "/",
+    });
+    const b2bType = request.nextUrl.searchParams.get("b2b_type");
+    if (ctxParam === "b2b" && b2bType) {
+      response.cookies.set("b2b_type", b2bType, {
+        maxAge: 60 * 60 * 24 * 365 * 2,
+        sameSite: "lax",
+        path: "/",
+      });
+    }
   }
 
   // Auth check for protected routes happens at the page/layout level
