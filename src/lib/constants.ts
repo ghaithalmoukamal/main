@@ -1,4 +1,11 @@
-import type { ZoneType, AdFormat, SubscriptionDuration } from "./types";
+import type {
+  ZoneType,
+  AdFormat,
+  SubscriptionDuration,
+  FirmSpecialization,
+  PricingType,
+  OutsideZoneType,
+} from "./types";
 
 export const APP_NAME = {
   ar: "سوق الحرفيين",
@@ -128,4 +135,105 @@ export const TRADE_SLUGS: Record<string, string> = {
   mechanic: "mechanic",
   turner: "turner",
   glassworker: "glassworker",
+};
+
+// ============================================================
+// Contractor specializations
+// ============================================================
+export const CONTRACTOR_SPECIALIZATIONS: Array<{ value: string; label_ar: string; label_en: string }> = [
+  { value: "civil",        label_ar: "أعمال مدنية",          label_en: "Civil Works" },
+  { value: "finishing",    label_ar: "أعمال تشطيب",          label_en: "Finishing Works" },
+  { value: "mep",          label_ar: "ميكانيك وكهرباء وصحي", label_en: "MEP" },
+  { value: "interior",     label_ar: "تصميم داخلي",          label_en: "Interior Design" },
+  { value: "demolition",   label_ar: "هدم وترميم",            label_en: "Demolition & Restoration" },
+  { value: "landscaping",  label_ar: "تنسيق حدائق",          label_en: "Landscaping" },
+  { value: "painting",     label_ar: "دهانات",                label_en: "Painting" },
+  { value: "electrical",   label_ar: "كهرباء",                label_en: "Electrical" },
+  { value: "plumbing",     label_ar: "صحي",                   label_en: "Plumbing" },
+  { value: "hvac",         label_ar: "تكييف وتبريد",          label_en: "HVAC" },
+  { value: "general",      label_ar: "أعمال عامة",            label_en: "General Contracting" },
+];
+
+// ============================================================
+// Firm structure & specialization
+// ============================================================
+export const FIRM_STRUCTURES: Array<{ value: "solo" | "company"; label_ar: string; label_en: string; icon: string }> = [
+  { value: "solo",    label_ar: "مهندس مستقل",    label_en: "Solo Engineer",  icon: "👤" },
+  { value: "company", label_ar: "شركة هندسية",     label_en: "Engineering Co.", icon: "🏢" },
+];
+
+export const FIRM_SPECIALIZATIONS: Record<
+  FirmSpecialization,
+  { label_ar: string; label_en: string; icon: string; default_trades: string[] }
+> = {
+  architecture_interior: {
+    label_ar: "معمارية وتصميم داخلي",
+    label_en: "Architecture & Interior Design",
+    icon: "🏛️",
+    default_trades: ["carpenter", "painter", "tiler", "aluminum"],
+  },
+  structural_civil: {
+    label_ar: "إنشائية ومدنية",
+    label_en: "Structural & Civil Engineering",
+    icon: "🏗️",
+    default_trades: ["stonemason", "welder", "blacksmith"],
+  },
+  mep: {
+    label_ar: "ميكانيك وكهرباء وصحي",
+    label_en: "MEP Engineering",
+    icon: "⚡",
+    default_trades: ["electrician", "plumber", "mechanic"],
+  },
+  general_contractor: {
+    label_ar: "مقاولات عامة",
+    label_en: "General Contractor",
+    icon: "🔨",
+    default_trades: [], // all trades
+  },
+  multidisciplinary: {
+    label_ar: "متعددة التخصصات",
+    label_en: "Multidisciplinary",
+    icon: "🔧",
+    default_trades: [], // all trades
+  },
+  freelance_engineer: {
+    label_ar: "مهندس مستقل",
+    label_en: "Freelance Engineer",
+    icon: "👤",
+    default_trades: [], // all trades
+  },
+  sole_contractor: {
+    label_ar: "مقاول فردي",
+    label_en: "Sole Contractor",
+    icon: "🪚",
+    default_trades: [], // all trades
+  },
+};
+
+// ============================================================
+// Maalem pricing types
+// ============================================================
+export const PRICING_TYPES: Record<
+  PricingType,
+  { label_ar: string; label_en: string; unit_ar: string; unit_en: string; icon: string }
+> = {
+  fixed:          { label_ar: "سعر ثابت",         label_en: "Fixed Price",  unit_ar: "",           unit_en: "",         icon: "💰" },
+  per_hour:       { label_ar: "بالساعة",           label_en: "Per Hour",     unit_ar: "/ ساعة",     unit_en: "/ hr",     icon: "⏱️" },
+  per_sqm:        { label_ar: "بالمتر المربع",     label_en: "Per m²",       unit_ar: "/ م²",       unit_en: "/ m²",     icon: "📐" },
+  per_meter:      { label_ar: "بالمتر الطولي",     label_en: "Per Meter",    unit_ar: "/ م",        unit_en: "/ m",      icon: "📏" },
+  per_unit:       { label_ar: "بالقطعة / الوحدة", label_en: "Per Unit",     unit_ar: "/ قطعة",     unit_en: "/ unit",   icon: "📦" },
+  custom_formula: { label_ar: "تسعيرة مخصصة",     label_en: "Custom Blocks",unit_ar: "مخصص",       unit_en: "custom",   icon: "⚙️" },
+};
+
+// ============================================================
+// Outside-zone surcharge types
+// ============================================================
+export const OUTSIDE_ZONE_TYPES: Record<
+  OutsideZoneType,
+  { label_ar: string; label_en: string; icon: string }
+> = {
+  not_available: { label_ar: "لا أعمل خارج المنطقة", label_en: "Not available outside area", icon: "🚫" },
+  flat_fee:      { label_ar: "رسوم إضافية ثابتة",    label_en: "Flat fee surcharge",         icon: "💳" },
+  per_km:        { label_ar: "رسوم لكل كيلومتر",     label_en: "Per km surcharge",           icon: "🛣️" },
+  percentage:    { label_ar: "نسبة من إجمالي الفاتورة", label_en: "% of total invoice",      icon: "📊" },
 };

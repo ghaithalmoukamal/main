@@ -5,9 +5,12 @@
 export type Role =
   | "admin"
   | "moderator"
-  | "worker"
+  | "worker"       // internal review staff — NOT a craftsman, see ADR-006
   | "supplier"
-  | "craftsman"
+  | "craftsman"    // the Maalem (المعلم)
+  | "firm"
+  | "contractor"   // project-level professional (new)
+  | "homeowner"    // private B2C customer (new)
   | "user";
 
 export interface WorkerPermissions {
@@ -410,5 +413,176 @@ export interface ReliabilityMetrics {
 }
 
 // ============================================================
-// Reliability metrics — visible only to firms
+// Contractor — project-level professional (searchable + can hire)
 // ============================================================
+export type ContractorType = "individual" | "company";
+export type ContractorStatus = "open" | "busy";
+
+export interface Contractor {
+  id: string;
+  user_id: string | null;
+  city_id: number;
+  name: string;
+  name_ar: string | null;
+  type: ContractorType;
+  specialization: string[];
+  bio_ar: string | null;
+  bio_en: string | null;
+  phone: string | null;
+  whatsapp: string | null;
+  instagram: string | null;
+  facebook: string | null;
+  website: string | null;
+  photo_url: string | null;
+  logo_url: string | null;
+  latitude: number | null;
+  longitude: number | null;
+  location_name: string | null;
+  years_experience: number | null;
+  team_size_min: number | null;
+  team_size_max: number | null;
+  approval_status: ApprovalStatus;
+  approved_by: string | null;
+  is_verified: boolean;
+  is_elite: boolean;
+  status: ContractorStatus;
+  created_at: string;
+  updated_at: string;
+  // Joined
+  city?: City;
+}
+
+export interface ContractorCraftsman {
+  contractor_id: string;
+  craftsman_id: string;
+  collaboration_type: "worked_together" | "regular_team" | "occasional";
+  created_at: string;
+  craftsman?: Craftsman;
+}
+
+// ============================================================
+// Homeowner — private B2C customer
+// ============================================================
+export interface Homeowner {
+  id: string;
+  user_id: string;
+  display_name: string;
+  city_id: number | null;
+  phone: string | null;
+  created_at: string;
+  city?: City;
+}
+
+// ============================================================
+// Firm subdivision
+// ============================================================
+export type FirmStructure = "solo" | "company";
+
+export type FirmSpecialization =
+  | "architecture_interior"
+  | "structural_civil"
+  | "mep"
+  | "general_contractor"
+  | "multidisciplinary"
+  | "freelance_engineer"
+  | "sole_contractor";
+
+// Extends the existing Company interface with firm-specific fields
+export interface FirmProfile extends Company {
+  firm_structure: FirmStructure | null;
+  firm_specialization: FirmSpecialization | null;
+}
+
+// ============================================================
+// Maalem Pricing v2 — rich pricing blocks per service
+// ============================================================
+export type PricingType =
+  | "fixed"
+  | "per_hour"
+  | "per_sqm"
+  | "per_meter"
+  | "per_unit"
+  | "custom_formula";
+
+export type PricingBlockType =
+  | "fixed"
+  | "per_hour"
+  | "per_sqm"
+  | "per_meter"
+  | "per_unit"
+  | "per_item";
+
+export interface ServicePricingBlock {
+  id: string;
+  service_id: string; // UUID in new schema
+  sort_order: number;
+  block_header_ar: string;
+  block_header_en: string | null;
+  pricing_type: PricingBlockType;
+  unit_price: number;
+  currency: string;
+  notes_ar: string | null;
+  notes_en: string | null;
+  created_at: string;
+}
+
+// Extended Service with v2 pricing fields
+export interface ServiceV2 extends Service {
+  pricing_type: PricingType | null;
+  price_unit_label_ar: string | null;
+  price_unit_label_en: string | null;
+  min_price: number | null;
+  max_price: number | null;
+  display_currency: string;
+  pricing_blocks?: ServicePricingBlock[];
+}
+
+// ============================================================
+// Maalem service areas — geographic working zone
+// ============================================================
+export type OutsideZoneType = "not_available" | "flat_fee" | "per_km" | "percentage";
+
+export interface CraftsmanServiceArea {
+  id: string;
+  craftsman_id: string;
+  zone_polygon: GeoJSON.Polygon | null;
+  zone_radius_km: number | null;
+  zone_center_lat: number | null;
+  zone_center_lng: number | null;
+  outside_zone_type: OutsideZoneType | null;
+  outside_zone_amount: number | null;
+  outside_zone_currency: string;
+  notes_ar: string | null;
+  notes_en: string | null;
+  created_at: string;
+  updated_at: string;
+}
+
+// ============================================================
+// Extended Rating with rater_type
+// ============================================================
+export type RaterType = "professional" | "homeowner";
+
+export interface RatingV2 extends Rating {
+  rater_type: RaterType;
+}
+
+// Aggregate homeowner rating summary shown on Maalem profiles
+export interface HomeownerRatingSummary {
+  craftsman_id: string;
+  average_score: number;        // 1–5 aggregate
+  total_reviews: number;
+  // Individual reviews only loaded for approved professionals
+  reviews?: HomeownerReview[];
+}
+
+export interface HomeownerReview {
+  id: number;
+  display_location: string;     // e.g. "Homeowner in Damascus" (never full name)
+  quality: number;
+  punctuality: number;
+  communication: number;
+  price_fairness: number;
+  comment: string | null;
+  created_at: string;
+}
