@@ -72,6 +72,10 @@ export default async function LocaleLayout({
       cookieStore.getAll().map((c) => `${c.name}=${c.value}`).join("; ")
     ) ?? null;
 
+  // Don't prompt for display-mode while the B2C/B2B context chooser is on screen.
+  // Once the user picks homeowner or b2b the cookie is set and FirstVisitModal resumes.
+  const hasUserContext = !!cookieStore.get("user_context")?.value;
+
   const dir = isRTL(locale) ? "rtl" : "ltr";
 
   return (
@@ -81,7 +85,7 @@ export default async function LocaleLayout({
           <AuthProvider>
             <ModeProvider initialMode={initialMode}>
               <ServiceWorkerRegistrar />
-              <FirstVisitModal />
+              {hasUserContext && <FirstVisitModal />}
               <Header />
               <main className="min-h-[calc(100vh-160px)]">{children}</main>
               <Footer />

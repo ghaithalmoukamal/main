@@ -7,7 +7,7 @@ const DEMO_CONTRACTOR = {
   id: "contractor-1",
   name: "Khaled Al-Miqati Contracting",
   name_ar: "خالد المقاتي للمقاولات",
-  type: "company" as const,
+  type: "company" as "individual" | "company",
   specialization: ["finishing", "civil", "interior"],
   bio_ar: "شركة متخصصة في أعمال التشطيب والبناء المدني بخبرة تزيد عن 15 عاماً في دمشق والضواحي. نعمل مع أفضل المعلمين والشركات الهندسية لتسليم مشاريع بأعلى معايير الجودة.",
   bio_en: "Specialized in finishing and civil works with over 15 years of experience in Damascus and suburbs. We work with the best Maalems and engineering firms to deliver projects at the highest quality standards.",

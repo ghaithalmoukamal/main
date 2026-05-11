@@ -22,9 +22,19 @@ interface Props {
   redirectTo: string;
 }
 
+/** Guard against open-redirect attacks: only allow same-origin relative paths. */
+function safeRedirectPath(raw: string): string {
+  // Must start with "/" but NOT "//" (protocol-relative) or contain "://"
+  if (!raw || !raw.startsWith("/") || raw.startsWith("//") || raw.includes("://")) {
+    return "";
+  }
+  return raw;
+}
+
 export default function LoginClient({ locale, defaultRole, redirectTo }: Props) {
   const isAr = locale === "ar";
   const { login } = useAuth();
+  const safeRedirect = safeRedirectPath(redirectTo);
 
   const [activeTab, setActiveTab] = useState(defaultRole || "craftsman");
   const [username, setUsername] = useState("");
@@ -52,7 +62,7 @@ export default function LoginClient({ locale, defaultRole, redirectTo }: Props) 
     if (result.ok) {
       // Full page reload is intentional — ensures all providers re-initialize
       // with the new auth state from localStorage.
-      window.location.href = `/${locale}${redirectTo || result.redirect}`;
+      window.location.href = `/${locale}${safeRedirect || result.redirect}`;
     } else {
       setError(
         isAr

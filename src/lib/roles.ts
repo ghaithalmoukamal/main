@@ -1,12 +1,15 @@
 import type { Profile, Role, WorkerPermissions } from "./types";
 
 export const ROLES: Record<Role, { label_ar: string; label_en: string }> = {
-  admin: { label_ar: "مدير", label_en: "Admin" },
-  moderator: { label_ar: "مشرف", label_en: "Moderator" },
-  worker: { label_ar: "موظف", label_en: "Worker" },
-  supplier: { label_ar: "مورد", label_en: "Supplier" },
-  craftsman: { label_ar: "معلم", label_en: "Craftsman" },
-  user: { label_ar: "مستخدم", label_en: "User" },
+  admin:      { label_ar: "مدير",          label_en: "Admin" },
+  moderator:  { label_ar: "مشرف",          label_en: "Moderator" },
+  worker:     { label_ar: "عامل مراجعة",   label_en: "Review Worker" }, // internal staff — NOT a craftsman
+  supplier:   { label_ar: "مورّد",          label_en: "Supplier" },
+  craftsman:  { label_ar: "معلم",           label_en: "Maalem" },       // the master craftsman
+  firm:       { label_ar: "شركة هندسية",   label_en: "Engineering Firm" },
+  contractor: { label_ar: "مقاول",          label_en: "Contractor" },
+  homeowner:  { label_ar: "صاحب البيت",    label_en: "Homeowner" },
+  user:       { label_ar: "مستخدم",         label_en: "User" },
 };
 
 export type Action =

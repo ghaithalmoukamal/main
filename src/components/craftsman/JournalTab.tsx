@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { useMode } from "@/components/layout/ModeProvider";
 import type { WorkJournalPost } from "@/lib/types";
@@ -28,14 +29,16 @@ export default function JournalTab({ posts }: { posts: WorkJournalPost[] }) {
           {post.photos.length > 0 && mode === "normal" && (
             <div className="flex gap-1 overflow-x-auto p-2 bg-cream-50">
               {post.photos.map((url, i) => (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
-                  key={i}
-                  src={url}
-                  alt={post.title}
-                  className="h-32 w-auto rounded-lg object-cover shrink-0"
-                  loading="lazy"
-                />
+                <div key={i} className="relative h-32 w-40 shrink-0 rounded-lg overflow-hidden">
+                  <Image
+                    src={url}
+                    alt={`${post.title} — photo ${i + 1}`}
+                    fill
+                    sizes="160px"
+                    className="object-cover"
+                    loading="lazy"
+                  />
+                </div>
               ))}
             </div>
           )}

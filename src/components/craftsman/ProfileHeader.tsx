@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { StatusDot } from "@/components/ui/Badge";
 import { Badge } from "@/components/ui/Badge";
@@ -31,11 +32,13 @@ export default function ProfileHeader({ craftsman, completedJobs = 0 }: Props) {
         {/* Avatar */}
         <div className="shrink-0">
           {craftsman.photo_url ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={craftsman.photo_url}
               alt={craftsman.name}
+              width={80}
+              height={80}
               className="w-20 h-20 rounded-xl object-cover border-2 border-clay-100"
+              priority
             />
           ) : (
             <div className="w-20 h-20 rounded-xl bg-cream-100 border-2 border-clay-100 flex items-center justify-center text-3xl">

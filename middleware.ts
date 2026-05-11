@@ -19,34 +19,51 @@ export default function middleware(request: NextRequest) {
   const response = intlMiddleware(request);
   const pathname = request.nextUrl.pathname;
 
+  const isProd = process.env.NODE_ENV === "production";
+
   // Persist Lite/Normal mode cookie if explicit query param is present.
   const modeParam = request.nextUrl.searchParams.get("mode");
   if (modeParam === "lite" || modeParam === "normal") {
     response.cookies.set("display-mode", modeParam, {
       maxAge: 60 * 60 * 24 * 365,
       sameSite: "lax",
+      httpOnly: true,
+      secure: isProd,
       path: "/",
     });
   }
 
-  // Persist B2C/B2B user context cookie if set via query param.
-  // e.g. /?ctx=homeowner or /?ctx=b2b&b2b_type=maalem
-  // This is set once on first visit and never prompted again.
+  // user_context (homeowner/b2b) is set client-side by ContextSplitScreen via
+  // document.cookie before window.location.replace() so it arrives in the very
+  // next request's incoming headers — no middleware redirect needed.
+  // We still accept it as a query param for deep-links / QR codes and reinforce
+  // it server-side here (server set = httpOnly, more secure).
   const ctxParam = request.nextUrl.searchParams.get("ctx");
   if (ctxParam === "homeowner" || ctxParam === "b2b") {
-    response.cookies.set("user_context", ctxParam, {
-      maxAge: 60 * 60 * 24 * 365 * 2, // 2 years — effectively permanent
+    const redirectUrl = request.nextUrl.clone();
+    redirectUrl.searchParams.delete("ctx");
+    redirectUrl.searchParams.delete("b2b_type");
+
+    const redirectResponse = NextResponse.redirect(redirectUrl, { status: 307 });
+    redirectResponse.cookies.set("user_context", ctxParam, {
+      maxAge: 60 * 60 * 24 * 365 * 2,
       sameSite: "lax",
+      httpOnly: true,
+      secure: isProd,
       path: "/",
     });
+
     const b2bType = request.nextUrl.searchParams.get("b2b_type");
     if (ctxParam === "b2b" && b2bType) {
-      response.cookies.set("b2b_type", b2bType, {
+      redirectResponse.cookies.set("b2b_type", b2bType, {
         maxAge: 60 * 60 * 24 * 365 * 2,
         sameSite: "lax",
+        httpOnly: true,
+        secure: isProd,
         path: "/",
       });
     }
+    return redirectResponse;
   }
 
   // Auth check for protected routes happens at the page/layout level

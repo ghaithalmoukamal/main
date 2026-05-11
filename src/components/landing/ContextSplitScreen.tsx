@@ -17,8 +17,15 @@ export default function ContextSplitScreen() {
   const isAr = locale === "ar";
 
   const choose = (ctx: "homeowner" | "b2b") => {
-    // Full reload so middleware sets cookie AND server component re-reads it
-    window.location.href = `/${locale}?ctx=${ctx}`;
+    // Set cookie directly from JS so it's present in the very next request's
+    // incoming headers — server components read cookies() from the request, not
+    // the response, so the only reliable way is to write it client-side before
+    // navigating.  Middleware is no longer involved in this flow.
+    const twoYears = 60 * 60 * 24 * 365 * 2;
+    document.cookie = `user_context=${ctx}; path=/; max-age=${twoYears}; SameSite=Lax`;
+    // Hard reload (not router.push) so the RSC cache is bypassed and page.tsx
+    // re-runs on the server with the freshly-set cookie.
+    window.location.replace(`/${locale}`);
   };
 
   return (

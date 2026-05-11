@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Link } from "@/i18n/routing";
 import { useLocale, useTranslations } from "next-intl";
 import type { Craftsman } from "@/lib/types";
@@ -28,10 +29,11 @@ export default function CraftsmanCard({
         {/* Photo / icon block */}
         <div className="shrink-0 w-16 h-16 rounded-lg bg-clay-50 flex items-center justify-center overflow-hidden">
           {craftsman.photo_url && mode === "normal" ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
+            <Image
               src={craftsman.photo_url}
               alt={craftsman.name}
+              width={64}
+              height={64}
               className="w-full h-full object-cover"
             />
           ) : (

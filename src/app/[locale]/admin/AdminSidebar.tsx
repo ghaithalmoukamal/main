@@ -48,7 +48,7 @@ export default function AdminSidebar({ locale }: { locale: "ar" | "en" }) {
             >
               <span>{item.icon}</span>
               <span className="flex-1">{isAr ? item.labelAr : item.label}</span>
-              {item.badge ? (
+              {"badge" in item && item.badge ? (
                 <span className="bg-busy text-cream text-xs px-1.5 py-0.5 rounded-full font-bold">
                   {item.badge}
                 </span>
