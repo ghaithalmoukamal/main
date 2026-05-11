@@ -1,22 +1,24 @@
 "use client";
 
-import { useRouter, usePathname } from "next/navigation";
 import { useLocale } from "next-intl";
 
 /**
  * First-visit full-screen split screen.
  * Shown once — clicking a side stores the cookie via middleware
  * (?ctx=homeowner or ?ctx=b2b) and reloads with the appropriate landing.
+ *
+ * ⚠️ We use window.location.href (full browser reload) instead of router.push()
+ * because Next.js App Router soft navigation can serve a stale RSC cache that
+ * doesn't reflect the cookie set by middleware on this request. A hard reload
+ * guarantees the server re-reads the cookie and renders the correct landing page.
  */
 export default function ContextSplitScreen() {
-  const router = useRouter();
-  const pathname = usePathname();
   const locale = useLocale() as "ar" | "en";
   const isAr = locale === "ar";
 
   const choose = (ctx: "homeowner" | "b2b") => {
-    // Navigate to same page with ctx query param — middleware persists it in cookie
-    router.push(`${pathname}?ctx=${ctx}`);
+    // Full reload so middleware sets cookie AND server component re-reads it
+    window.location.href = `/${locale}?ctx=${ctx}`;
   };
 
   return (
